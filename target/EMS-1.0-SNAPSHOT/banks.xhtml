@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Banks</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+
+    </h:head>
+    <h:body>
+        <p:panel>
+            <f:facet name="header">
+                <h:form id="frm_input">
+                    <h:panelGrid id="left_grid" columns="2" style="float: left;" >
+                        <h:outputText value="List Of Banks" />
+                    </h:panelGrid>
+
+                    <h:panelGrid id="right_grid" columns="2" style="float: right;">
+                        <p:commandButton icon="fa fa-plus" title="Create New Bank" oncomplete="PF('createEditBanksDlg').show()"
+                                         actionListener="#{banksController.beforeCreate()}" update="create_edit_bank"  resetValues="true" />
+                    </h:panelGrid>
+
+
+                </h:form>
+            </f:facet>
+
+
+
+            <h:form id="frm_banks">
+                <p:dataTable id="dt_banks" value="#{banksController.banks}" var="b"
+                             paginator="true"  paginatorPosition="bottom" 
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,15">
+                    <p:column headerText="S.N">
+                        <h:outputText value="#{b.id}"  />
+                    </p:column>
+
+                    <p:column headerText="BANK NAME">
+                        <h:outputText value="#{b.name}"  />
+                    </p:column>
+
+                    <p:column headerText="CODE">
+                        <h:outputText value="#{b.code}" />
+                    </p:column>
+
+                    <p:column headerText="LOCATION">
+                        <h:outputText value="#{b.location}" />
+                    </p:column>
+
+                    <p:column headerText="ACTION" width="15%">
+                        <p:commandButton id="btn_update_bank" title="Update Bank" icon="fa fa-pencil" oncomplete="PF('createEditBanksDlg').show()"
+                                         actionListener="#{banksController.beforeEdit(b)}" update="create_edit_bank" resetValues="true" />
+
+                        <p:commandButton id="btn_delete_bank" icon="fa fa-trash" title="Delete"
+                                         actionListener="#{banksController.deleteBank(b)}" ajax="true" 
+                                         update=":frm_banks:dt_banks" />
+
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+        </p:panel>
+
+        <p:dialog id="create_edit_dlg" widgetVar="createEditBanksDlg" header="Bank"
+                  resizable="false" showEffect="explode" hideEffect="explode" >
+            <h:form id="create_edit_bank">
+
+                <p:panelGrid columns="2" >
+                    <p:outputLabel id="olbl_name" value="Name" for="inpText_name" />
+                    <p:inputText id="inpText_name" value="#{banksController.bank.name}" />
+
+                    <p:outputLabel id="olbl_code" value="Code" for="inpText_code" />
+                    <p:inputText id="inpText_code" value="#{banksController.bank.code}" />
+
+                    <p:outputLabel id="olbl_location" value="Location" for="inpText_location" />
+                    <p:inputText id="inpText_location" value="#{banksController.bank.location}" />
+
+                    <p:commandButton id="btn_save_bank" value="Save" actionListener="#{banksController.createBank()}"
+                                     rendered="#{empty banksController.bank.id}"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed) PF('createEditBanksDlg').hide();"
+                                     update=":frm_banks:dt_banks @form"  />
+
+                    <p:commandButton id="btn_edit_bank" value="Update" actionListener="#{banksController.updateBank()}"
+                                     rendered="#{not empty banksController.bank.id}"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed) PF('createEditBanksDlg').hide();"
+                                     update=":frm_banks:dt_banks @form"  />
+
+                </p:panelGrid>
+
+            </h:form>
+        </p:dialog>
+
+
+    </h:body>
+</html>

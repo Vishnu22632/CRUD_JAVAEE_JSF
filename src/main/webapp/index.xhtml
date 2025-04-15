@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Index</title>
+    </h:head>
+    <h:body>
+
+        <h:form>
+            <p:panel header="EMPLOYEE MANAGEMENT SYSTEM">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="First Name : " />
+                    <p:inputText value="#{employeeController.firstName}" />
+
+                    <p:outputLabel value="Last Name : " />
+                    <p:inputText value="#{employeeController.lastName}" />
+
+                    <p:outputLabel value="Email : " />
+                    <p:inputText value="#{employeeController.email}" />
+
+                    <p:outputLabel value="Salary : " />
+                    <p:inputText value="#{employeeController.salary}" />
+                </p:panelGrid>
+                <p:commandButton value="Create" action="#{employeeController.createEmployee()}" update="empTable" />
+            </p:panel>
+
+        </h:form>
+
+
+        <p:dataTable id="empTable" value="#{employeeController.employees}" var="employee">
+            <p:column headerText="ID">
+                <h:outputText value="#{employee.id}" />
+            </p:column>
+
+            <p:column headerText="FIRST NAME">
+                <h:outputText value="#{employee.firstName}" />
+            </p:column> 
+
+            <p:column headerText="LAST NAME">
+                <h:outputText value="#{employee.lastName}" />
+            </p:column> 
+
+            <p:column headerText="EMAIL">
+                <h:outputText value="#{employee.email}" />
+            </p:column> 
+
+            <p:column headerText="SALARY">
+                <h:outputText value="#{employee.salary}" />
+            </p:column> 
+
+            <p:column headerText="ACTION">
+                <p:commandButton value="Select" action="#{employeeController.selectEmployee(employee)}" update="editTable" />
+                <p:commandButton value="Delete" action="#{employeeController.deleteEmployee(employee)}" update="empTable"  />
+
+            </p:column>
+
+        </p:dataTable>
+
+
+
+        <h:form id="editTable">
+            <p:panel header="EDIT EMPLOYEE" >
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="FIRST NAME" />
+                    <p:inputText value="#{employeeController.selecteEmployee.firstName}" />
+                    
+                    <p:outputLabel value="LAST NAME" />
+                    <p:inputText value="#{employeeController.selecteEmployee.lastName}" />
+                    
+                    <p:outputLabel value="EMAIL" />
+                    <p:inputText value="#{employeeController.selecteEmployee.email}" />
+                    
+                    <p:outputLabel value="SALARY" />
+                    <p:inputText value="#{employeeController.selecteEmployee.salary}" />
+                </p:panelGrid>
+                <p:commandButton value="UPDATE" action="#{employeeController.updateEmployee()}" update="empTable" />
+                
+            </p:panel>
+        </h:form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </h:body>
+</html>
