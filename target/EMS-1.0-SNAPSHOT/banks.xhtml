@@ -30,24 +30,24 @@
 
 
             <h:form id="frm_banks">
-                <p:dataTable id="dt_banks" value="#{banksController.banks}" var="b"
+                <p:dataTable id="dt_banks" value="#{banksController.lazyBanks}" rowKey="#{b.id}" var="b" lazy="true" 
                              paginator="true"  paginatorPosition="bottom" 
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             rowsPerPageTemplate="5,10,15">
-                    <p:column headerText="S.N">
+                             rowsPerPageTemplate="5,10,15"  rows="5">
+                    <p:column headerText="S.N" width="5%">
                         <h:outputText value="#{b.id}"  />
                     </p:column>
 
-                    <p:column headerText="BANK NAME">
-                        <h:outputText value="#{b.name}"  />
+                    <p:column headerText="BANK NAME" sortBy="#{b.name}" filterBy="#{b.name}" filterMatchMode="contains" >
+                        <h:outputText value="#{b.name}"   />
                     </p:column>
 
-                    <p:column headerText="CODE">
+                    <p:column headerText="CODE" sortBy="#{b.code}" filterBy="#{b.code}" filterMatchMode="contains">
                         <h:outputText value="#{b.code}" />
                     </p:column>
 
-                    <p:column headerText="LOCATION">
+                    <p:column headerText="LOCATION" sortBy="#{b.location}" filterBy="#{b.location}" filterMatchMode="contains">
                         <h:outputText value="#{b.location}" />
                     </p:column>
 

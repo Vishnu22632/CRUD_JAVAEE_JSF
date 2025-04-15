@@ -1,6 +1,7 @@
 package com.ems.controller;
 
 import com.ems.entity.Banks;
+import com.ems.entity.LazyLoadingDataModel;
 import com.ems.facades.BanksFacade;
 import java.io.Serializable;
 import java.util.List;
@@ -22,45 +23,57 @@ public class BanksController implements Serializable {
     @EJB
     private BanksFacade banksFacade;
 
-    private List<Banks> banks;
+//    private List<Banks> banks;
+    private LazyLoadingDataModel<Banks> lazyBanks;
     private Banks bank;
 
     @PostConstruct
     public void init() {
-        banks = banksFacade.findAll();
+//        banks = banksFacade.findAll();
+          lazyBanks = new LazyLoadingDataModel<Banks>(banksFacade);
         bank = new Banks();
     }
 
     public void createBank() {
         banksFacade.create(bank);
-        banks = banksFacade.findAll();
+//        banks = banksFacade.findAll();
         bank = new Banks();
     }
-    
-    public void updateBank(){
+
+    public void updateBank() {
         banksFacade.edit(bank);
     }
-    
-    public void deleteBank(Banks bank){
+
+    public void deleteBank(Banks bank) {
         banksFacade.remove(bank);
-        banks = banksFacade.findAll();
+//        banks = banksFacade.findAll();
     }
-    
-    public void beforeCreate(){
+
+    public void beforeCreate() {
         bank = new Banks();
     }
-    
-    public void beforeEdit(Banks bank){
+
+    public void beforeEdit(Banks bank) {
         this.bank = bank;
     }
 
-    public List<Banks> getBanks() {
-        return banks;
+//    public List<Banks> getBanks() {
+//        return banks;
+//    }
+//
+//    public void setBanks(List<Banks> banks) {
+//        this.banks = banks;
+//    }
+
+    public LazyLoadingDataModel<Banks> getLazyBanks() {
+        return lazyBanks;
     }
 
-    public void setBanks(List<Banks> banks) {
-        this.banks = banks;
+    public void setLazyBanks(LazyLoadingDataModel<Banks> lazyBanks) {
+        this.lazyBanks = lazyBanks;
     }
+    
+    
 
     public Banks getBank() {
         return bank;
